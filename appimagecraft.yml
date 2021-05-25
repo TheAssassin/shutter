@@ -30,4 +30,4 @@ appimage:
     plugins:
       - perl
       - gtk
-    extra_args: --custom-apprun "$BUILD_DIR"/AppRun.sh
+    extra_args: --custom-apprun "$BUILD_DIR"/AppRun.sh -l "$(ldconfig -p | ag libffi.so.6 | awk '{print $4}' | head -n1)"
