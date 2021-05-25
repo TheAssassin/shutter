@@ -22,6 +22,12 @@ scripts:
       exec "$APPDIR"/usr/bin/perl "$APPDIR"/usr/bin/shutter
       EOF
     - chmod +x AppRun.sh
+    # temporary workaround
+    - |
+      mkdir -p "$BUILD_DIR"/AppDir/apprun-hooks
+      cat > "$BUILD_DIR"/AppDir/apprun-hooks/set-ld-library-path.sh <<\EOF
+      export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
+      EOF
 
 appimage:
   linuxdeploy:
