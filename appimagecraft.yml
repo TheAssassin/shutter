@@ -35,5 +35,5 @@ appimage:
       CPAN_PACKAGES: PAR::Dist;YAML;CPAN::DistnameInfo;Gtk3;Glib::Object::Introspection;Gtk3::ImageView;GooCanvas2;GooCanvas2::CairoTypes;Pango;Carp::Always;Number::Bytes::Human;File::Which;File::Copy::Recursive;XML::Simple;Net::DBus;Proc::Simple;Sort::Naturally;Image::ExifTool;Locale::gettext;Proc::Killfam
     plugins:
       - perl
-      #- gtk
+      - gtk
     extra_args: --custom-apprun "$BUILD_DIR"/AppRun.sh -l "$(ldconfig -p | grep libffi.so.6 | awk '{print $4}' | head -n1)"
