@@ -18,7 +18,7 @@ scripts:
     - |
       cat > "$BUILD_DIR"/AppRun.sh <<\EOF
       #! /bin/bash
-      APPDIR="${APPDIR:-"$(readlink -f "$(dirname "$0")")")}"
+      APPDIR="${APPDIR:-"$(readlink -f "$(dirname "$0")")"}"
       exec "$APPDIR"/usr/bin/perl "$APPDIR"/usr/bin/shutter
       EOF
     - chmod +x AppRun.sh
