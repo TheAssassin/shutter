@@ -1,0 +1,33 @@
+version: 1
+
+project:
+  name: org.shutter-project.shutter
+  version_command: git describe --tags
+
+build:
+  script:
+    commands:
+      # the makefile just installs a bunch of files into some prefix
+      - pushd "$PROJECT_ROOT"
+      - make install prefix="$BUILD_DIR"/AppDir/usr
+      - popd
+
+scripts:
+  post_build:
+    # like for most script languages, we need to install a custom AppRun script to make sure the bundled interpreter is used
+    - |
+      cat > "$BUILD_DIR"/AppRun.sh <<\EOF
+      #! /bin/bash
+      APPDIR="${APPDIR:-"$(readlink -f "$(dirname "$0")")")}"
+      exec "$APPDIR"/usr/bin/perl "$APPDIR"/usr/bin/shutter
+      EOF
+    - chmod +x AppRun.sh
+
+appimage:
+  linuxdeploy:
+    environment:
+      CPAN_PACKAGES: PAR::Dist;YAML;CPAN::DistnameInfo;Gtk3;Glib::Object::Introspection;Gtk3::ImageView;GooCanvas2;GooCanvas2::CairoTypes;Pango;Carp::Always;Number::Bytes::Human;File::Which;File::Copy::Recursive;XML::Simple;Net::DBus;Proc::Simple;Sort::Naturally;Image::ExifTool;Locale::gettext;Proc::Killfam
+    plugins:
+      - perl
+      - gtk
+    extra_args: --custom-apprun "$BUILD_DIR"/AppRun.sh
